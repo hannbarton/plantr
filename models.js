@@ -15,11 +15,15 @@ const Plot = db.define('plots', {
 const Vegetable = db.define('vegetables', {
     name: Sequelize.STRING,
     color: Sequelize.STRING,
-    planted_on: Sequelize.DATE
+    planted_on: Sequelize.DATE,
+    uuid: {
+        type: Sequelize.UUID,
+        primaryKey: true
+      }
 }, {underscored: true})
 
 Plot.belongsToMany(Vegetable, {through: 'vegetable_plot'});
 Vegetable.belongsToMany(Plot, {through: 'vegetable_plot'});
 
-Gardener.belongsTo(Vegetable)
-Vegetable.hasMany(Gardener, {through: 'favoriteVegetableId'})
+Gardener.belongsTo(Vegetable, {as: 'favorite_vegetable'})
+Vegetable.hasMany(Gardener)
